@@ -122,11 +122,38 @@ function getOfflineAnswer(question: string) {
 }
 
 const DEEPSEEK_API_URL = "https://deepseek-free-api-production-2e5e.up.railway.app/v1/chat/completions";
-const DEEPSEEK_AUTH_TOKEN = "gJ+Hd8Bhl7W8l9FeQ88jMUzZSuXFH8uLQ31wkeGrMkRD4OiJDF2IfTr/gpEY+Rhj";
+// Token được lấy tự động từ file token.txt trên GitHub, không hard-code trong code nữa.
+// Cập nhật token: chỉ cần sửa nội dung file này, không cần build lại web.
+const DEEPSEEK_TOKEN_URL = "https://raw.githubusercontent.com/jeuwiw36/api-deepseek/main/token.txt";
 const DEEPSEEK_MODEL = "deepseek-chat";
 const DEEPSEEK_SYSTEM_PROMPT = `Bạn là Sử Ký, hướng dẫn viên AI về Văn Miếu–Quốc Tử Giám tại Hà Nội. Trả lời bằng tiếng Việt, ngắn gọn từ 2 đến 5 câu, thân thiện và dễ hiểu cho học sinh. Ưu tiên thông tin lịch sử đáng tin cậy: Văn Miếu 1070, Quốc Tử Giám 1076, Khuê Văn Các 1805, 82 bia Tiến sĩ và UNESCO ghi danh năm 2010. Nếu câu hỏi cần giờ mở cửa, giá vé hoặc thông tin có thể thay đổi, hãy nói rõ người dùng cần kiểm tra nguồn chính thức. Không bịa nguồn hoặc khẳng định điều không chắc chắn. QUAN TRỌNG: luôn bắt đầu câu trả lời bằng đúng tiền tố [SK_START], sau đó mới viết nội dung trả lời.`;
 
-async function getDeepSeekAnswer(question: string, history: ChatMessage[]) {
+// Cache token trong bộ nhớ để không phải tải lại file trên mỗi tin nhắn.
+let cachedDeepSeekToken: string | null = null;
+let cachedDeepSeekTokenAt = 0;
+const TOKEN_CACHE_MS = 5 * 60 * 1000; // cache 5 phút
+
+async function fetchDeepSeekToken(forceRefresh = false): Promise<string> {
+  const now = Date.now();
+  if (!forceRefresh && cachedDeepSeekToken && now - cachedDeepSeekTokenAt < TOKEN_CACHE_MS) {
+    return cachedDeepSeekToken;
+  }
+
+  // Thêm tham số thời gian để tránh bị cache bởi trình duyệt / CDN khi cần lấy bản mới nhất.
+  const response = await fetch(`${DEEPSEEK_TOKEN_URL}?t=${now}`, { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`Không tải được token DeepSeek từ GitHub (HTTP ${response.status})`);
+  }
+
+  const text = (await response.text()).trim();
+  if (!text) throw new Error("File token.txt trên GitHub đang trống");
+
+  cachedDeepSeekToken = text;
+  cachedDeepSeekTokenAt = now;
+  return text;
+}
+
+async function callDeepSeek(question: string, history: ChatMessage[], token: string) {
   const recentMessages = history.slice(-6).map((message) => ({ role: message.role, content: message.text }));
   const payload = {
     model: DEEPSEEK_MODEL,
@@ -141,7 +168,7 @@ async function getDeepSeekAnswer(question: string, history: ChatMessage[]) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${DEEPSEEK_AUTH_TOKEN}`,
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(payload),
   });
@@ -150,7 +177,25 @@ async function getDeepSeekAnswer(question: string, history: ChatMessage[]) {
   if (data?.message && !data?.choices) throw new Error(String(data.message));
   const answer = data?.choices?.[0]?.message?.content;
   if (!answer) throw new Error("DeepSeek returned an empty answer");
-  const rawAnswer = String(answer).trim();
+  return answer;
+}
+
+async function getDeepSeekAnswer(question: string, history: ChatMessage[]) {
+  let token = await fetchDeepSeekToken();
+  let rawAnswer: string;
+
+  try {
+    rawAnswer = String(await callDeepSeek(question, history, token)).trim();
+  } catch (error) {
+    // Nếu token đang cache bị coi là invalid/hết hạn, thử tải lại token mới nhất từ GitHub rồi gọi lại 1 lần.
+    const message = error instanceof Error ? error.message : String(error);
+    const looksLikeAuthError = /invalid token|authorization failed|401|403/i.test(message);
+    if (!looksLikeAuthError) throw error;
+
+    token = await fetchDeepSeekToken(true);
+    rawAnswer = String(await callDeepSeek(question, history, token)).trim();
+  }
+
   const markerStart = rawAnswer.toUpperCase().indexOf("SK_START");
   if (markerStart >= 0) {
     const markerEnd = rawAnswer.indexOf("]", markerStart);
