@@ -122,7 +122,7 @@ function getOfflineAnswer(question: string) {
 }
 
 const DEEPSEEK_API_URL = "https://deepseek-free-api-production-2e5e.up.railway.app/v1/chat/completions";
-const DEEPSEEK_AUTH_TOKEN = "O1h3tXuFRnW7qpHdcRnb/bpbk8R51QTWFF2SNumk0LWFHHM7L/DqszOsJuyjRm0u";
+const DEEPSEEK_AUTH_TOKEN = "gJ+Hd8Bhl7W8l9FeQ88jMUzZSuXFH8uLQ31wkeGrMkRD4OiJDF2IfTr/gpEY+Rhj";
 const DEEPSEEK_MODEL = "deepseek-chat";
 const DEEPSEEK_SYSTEM_PROMPT = `Bạn là Sử Ký, hướng dẫn viên AI về Văn Miếu–Quốc Tử Giám tại Hà Nội. Trả lời bằng tiếng Việt, ngắn gọn từ 2 đến 5 câu, thân thiện và dễ hiểu cho học sinh. Ưu tiên thông tin lịch sử đáng tin cậy: Văn Miếu 1070, Quốc Tử Giám 1076, Khuê Văn Các 1805, 82 bia Tiến sĩ và UNESCO ghi danh năm 2010. Nếu câu hỏi cần giờ mở cửa, giá vé hoặc thông tin có thể thay đổi, hãy nói rõ người dùng cần kiểm tra nguồn chính thức. Không bịa nguồn hoặc khẳng định điều không chắc chắn. QUAN TRỌNG: luôn bắt đầu câu trả lời bằng đúng tiền tố [SK_START], sau đó mới viết nội dung trả lời.`;
 
