@@ -209,6 +209,7 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeEra, setActiveEra] = useState(0);
+  const [eraDirection, setEraDirection] = useState<"up" | "down">("up");
   const [chatOpen, setChatOpen] = useState(false);
   const [chatExpanded, setChatExpanded] = useState(false);
   const [aboutVisible, setAboutVisible] = useState(false);
@@ -286,6 +287,12 @@ export default function Home() {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
+  };
+
+  const selectEra = (index: number) => {
+    if (index === activeEra) return;
+    setEraDirection(index > activeEra ? "up" : "down");
+    setActiveEra(index);
   };
 
   const askQuestion = (preset?: string) => {
@@ -414,19 +421,21 @@ export default function Home() {
             <div className="timeline-layout">
               <div className="timeline-list" role="tablist" aria-label="Các mốc lịch sử">
                 {timeline.map((item, index) => (
-                  <button className={`timeline-item ${activeEra === index ? "is-active" : ""}`} type="button" key={item.year} onClick={() => setActiveEra(index)} role="tab" aria-selected={activeEra === index}>
+                  <button className={`timeline-item ${activeEra === index ? "is-active" : ""}`} type="button" key={item.year} onClick={() => selectEra(index)} role="tab" aria-selected={activeEra === index}>
                     <span className="timeline-year">{item.year}</span>
                     <span className="timeline-item-title">{item.title}</span>
                     <ChevronDown className="timeline-chevron" size={18} />
                   </button>
                 ))}
               </div>
-              <div className="timeline-detail" role="tabpanel">
-                <div className="detail-topline"><span className="detail-tag">{currentEra.tag}</span><span className="detail-index">0{activeEra + 1} / 04</span></div>
-                <div className="detail-year">{currentEra.year}</div>
-                <h3>{currentEra.title}</h3>
-                <p>{currentEra.text}</p>
-                <div className="detail-ornament"><span /><span /><span /></div>
+              <div className="timeline-detail" role="tabpanel" aria-live="polite">
+                <div className={`timeline-detail-content direction-${eraDirection}`} key={currentEra.year}>
+                  <div className="detail-topline"><span className="detail-tag">{currentEra.tag}</span><span className="detail-index">0{activeEra + 1} / 04</span></div>
+                  <div className="detail-year">{currentEra.year}</div>
+                  <h3>{currentEra.title}</h3>
+                  <p>{currentEra.text}</p>
+                  <div className="detail-ornament"><span /><span /><span /></div>
+                </div>
               </div>
             </div>
           </div>
