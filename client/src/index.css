@@ -204,9 +204,16 @@ img { display: block; max-width: 100%; }
 .chat-panel { animation: panel-in .25s var(--ease-out); background: var(--paper); bottom: 78px; box-shadow: 0 20px 55px rgba(13,42,42,.23); max-width: calc(100vw - 32px); position: fixed; right: 26px; width: 365px; z-index: 29; }.chat-panel-head { background: var(--ink); color: #fff; padding: 16px; }.chat-panel-head span { color: rgba(255,255,255,.52); }.chat-panel-head button { background: none; color: rgba(255,255,255,.72); margin-left: auto; }.chat-messages { display: flex; flex-direction: column; gap: 9px; max-height: 250px; overflow: auto; padding: 18px 16px 10px; }.chat-bubble { font-size: 11px; line-height: 1.65; max-width: 88%; padding: 10px 12px; }.chat-bubble.assistant { align-self: start; background: #e9e3d7; color: var(--ink); }.chat-bubble.user { align-self: end; background: var(--coral); color: #fff; }.chat-quick { display: flex; gap: 6px; overflow-x: auto; padding: 8px 16px 12px; }.chat-quick button { background: transparent; border: 1px solid var(--line); color: var(--ink); font-size: 9px; padding: 7px 9px; white-space: nowrap; }.chat-form { margin: 0 16px 16px; }.chat-form button { background: var(--coral); }.chat-form input { padding: 8px; }
 
 .reveal-up { animation: reveal-up .8s var(--ease-out) both; }.reveal-fade { animation: reveal-fade 1s .15s var(--ease-out) both; }
+[data-reveal] { opacity: 0; transform: translateY(34px); transition: opacity .8s ease, transform .8s var(--ease-out); }
+[data-reveal].is-visible { opacity: 1; transform: translateY(0); }
+.scroll-cue { animation: cue-breathe 2.4s ease-in-out infinite; }
+.orbit-one { animation: orbit-drift 18s ease-in-out infinite alternate; }
+.orbit-two { animation: orbit-drift 24s ease-in-out -5s infinite alternate-reverse; }
 @keyframes reveal-up { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes reveal-fade { from { opacity: 0; transform: translateX(17px) rotate(2.5deg); } to { opacity: 1; transform: translateX(0) rotate(2.5deg); } }
 @keyframes panel-in { from { opacity: 0; transform: translateY(13px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes cue-breathe { 0%, 100% { opacity: .55; transform: translateX(0); } 50% { opacity: 1; transform: translateX(7px); } }
+@keyframes orbit-drift { from { transform: translate3d(0, 0, 0) rotate(0deg); } to { transform: translate3d(-24px, 18px, 0) rotate(7deg); } }
 
 @media (max-width: 900px) {
   .page-width { width: min(100% - 40px, 680px); }
@@ -218,7 +225,7 @@ img { display: block; max-width: 100%; }
 @media (max-width: 520px) {
   .page-width { width: calc(100% - 32px); }.hero-section { padding-bottom: 27px; }.hero-copy h1 { font-size: 54px; }.hero-description { font-size: 12px; }.hero-actions { align-items: start; flex-direction: column; gap: 19px; }.hero-visual { margin-left: 5%; }.hero-image-wrap img { height: 310px; }.hero-bottom { margin-top: 38px; }.display-title { font-size: 47px; }.feature-card h3 { font-size: 26px; }.timeline-item { gap: 10px; grid-template-columns: 55px 1fr 16px; padding-left: 0; padding-right: 0; }.timeline-item:hover, .timeline-item.is-active { padding-left: 5px; }.timeline-year { font-size: 18px; }.timeline-item-title { font-size: 11px; }.stele-metrics { gap: 15px; justify-content: space-between; }.stele-metrics strong { font-size: 19px; }.stele-metrics span { font-size: 8px; }.stele-photo-wrap { margin-inline: 11px; }.stele-photo-wrap img { height: 390px; }.stele-photo-caption { left: -10px; }.footer-top { grid-template-columns: 1fr; }.footer-links { border-top: 1px solid rgba(255,255,255,.13); padding-top: 24px; }.footer-note { grid-column: auto; }.chat-panel { bottom: 73px; right: 16px; width: calc(100vw - 32px); }.chat-launcher { bottom: 16px; right: 16px; }
 }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } [data-reveal] { opacity: 1; transform: none; } }
 
 .chat-panel-head button + button { margin-left: 0; }
 .chat-messages { scroll-behavior: smooth; }

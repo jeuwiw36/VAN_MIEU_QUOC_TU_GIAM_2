@@ -262,6 +262,25 @@ export default function Home() {
     return () => window.clearTimeout(showTimer);
   }, []);
 
+  useEffect(() => {
+    const revealItems = document.querySelectorAll<HTMLElement>('[data-reveal]');
+    if (!revealItems.length) return;
+    if (!('IntersectionObserver' in window)) {
+      revealItems.forEach((item) => item.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -45px' });
+    revealItems.forEach((item) => observer.observe(item));
+    return () => observer.disconnect();
+  }, []);
+
   const currentEra = useMemo(() => timeline[activeEra], [activeEra]);
 
   const scrollTo = (id: string) => {
@@ -349,7 +368,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="intro-section page-width" id="di-san">
+        <section className="intro-section page-width" id="di-san" data-reveal>
           <div className="section-kicker"><span>01</span><span className="kicker-rule" /><span>DI SẢN TRONG MỘT NHỊP NHÌN</span></div>
           <div className="intro-grid">
             <div>
@@ -385,7 +404,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="timeline-section" id="dong-chay">
+        <section className="timeline-section" id="dong-chay" data-reveal>
           <div className="page-width">
             <div className="section-kicker light-kicker"><span>02</span><span className="kicker-rule" /><span>DÒNG CHẢY HỌC THUẬT</span></div>
             <div className="timeline-heading">
@@ -413,7 +432,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="architecture-section page-width" id="kien-truc">
+        <section className="architecture-section page-width" id="kien-truc" data-reveal>
           <div className="section-kicker"><span>03</span><span className="kicker-rule" /><span>KIẾN TRÚC KỂ CHUYỆN</span></div>
           <div className="architecture-heading">
             <h2 className="display-title">Mỗi cánh cổng là<br /><em>một lớp nghĩa.</em></h2>
@@ -441,7 +460,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="stele-section" id="bia-da">
+        <section className="stele-section" id="bia-da" data-reveal>
           <div className="page-width stele-grid">
             <div className="stele-copy">
               <div className="section-kicker light-kicker"><span>04</span><span className="kicker-rule" /><span>KÝ ỨC TRÊN LƯNG RÙA</span></div>
@@ -461,7 +480,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="tour-section page-width" id="tour">
+        <section className="tour-section page-width" id="tour" data-reveal>
           <div className="section-kicker"><span>05</span><span className="kicker-rule" /><span>MỘT VÒNG KÝ ỨC</span></div>
           <div className="tour-heading"><h2 className="display-title">Năm điểm dừng<br /><em>cho một buổi chiều.</em></h2><p>Không cần vội. Hãy để một vòng đi bộ trở thành một cách đọc di sản — bằng mắt, bằng bước chân, bằng cả những khoảng im lặng.</p></div>
           <div className="tour-track">
@@ -476,7 +495,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="knowledge-section page-width" id="gia-tri">
+        <section className="knowledge-section page-width" id="gia-tri" data-reveal>
           <div className="section-kicker"><span>06</span><span className="kicker-rule" /><span>GÓC NHÌN DI SẢN</span></div>
           <div className="knowledge-heading"><h2 className="display-title">Một di sản,<br /><em>nhiều cách đọc.</em></h2><p>Văn Miếu–Quốc Tử Giám không chỉ lưu giữ những công trình cổ. Nơi đây còn kể về cách một xã hội từng đặt tri thức, người thầy và việc học vào vị trí trung tâm.</p></div>
           <div className="knowledge-grid">
@@ -486,7 +505,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="ai-section" id="tro-ly">
+        <section className="ai-section" id="tro-ly" data-reveal>
           <div className="page-width ai-inner">
             <div className="ai-orbit orbit-one" /><div className="ai-orbit orbit-two" />
             <div className="ai-copy">
@@ -514,13 +533,10 @@ export default function Home() {
         <div className="about-popover-topline"><span className="about-label">GHI CHÚ TỪ NGƯỜI THỰC HIỆN</span><button type="button" onClick={() => setAboutVisible(false)} aria-label="Ẩn giới thiệu" title="Ẩn"><X size={15} /></button></div>
         <h2>Kính chào Ban Giám khảo<br /><em>và các thầy cô giáo!</em></h2>
         <p>Em tên là <strong>Nguyễn Trung Hởi</strong>, học sinh lớp <strong>9A3</strong>, trường <strong>THCS Cao Viên</strong>.</p>
-        <p>Em xây dựng website này để giới thiệu về di tích Quốc gia đặc biệt Văn Miếu–Quốc Tử Giám theo một cách trực quan, hiện đại và dễ tiếp cận hơn. Qua dòng thời gian, hình ảnh kiến trúc và trợ lý Sử Ký, em mong muốn giúp các bạn học sinh hiểu thêm về lịch sử, văn hóa, truyền thống hiếu học và tinh thần tôn sư trọng đạo của dân tộc.</p>
-        <p>Để thực hiện sản phẩm, trước tiên em đọc tài liệu, chọn lọc những mốc lịch sử và nội dung quan trọng. Sau đó em tự xây dựng ý tưởng, chia website thành các phần giới thiệu, dòng thời gian, kiến trúc, bia Tiến sĩ và hành trình tham quan; tiếp theo em thiết kế màu sắc, bố cục, hình ảnh, viết nội dung và kiểm tra lại giao diện trên máy tính cũng như điện thoại.</p>
-        <p>Về cách thực hiện, em xây dựng giao diện bằng <strong>HTML và React</strong>, sử dụng <strong>CSS</strong> để tạo màu sắc, bố cục, hiệu ứng chuyển động và khả năng hiển thị trên nhiều kích thước màn hình. Em dùng <strong>JavaScript/TypeScript</strong> để lập trình các chức năng như dòng thời gian tương tác, khung trò chuyện Sử Ký, nút phóng to – thu nhỏ và phần giới thiệu tự động hiện.</p>
-        <p>Quy trình của em gồm bốn bước: chuẩn bị nội dung và hình ảnh; dựng cấu trúc các phần của trang; lập trình các nút bấm, hiệu ứng và chức năng tương tác; cuối cùng chạy thử, sửa lỗi và hoàn thiện giao diện để website dễ sử dụng hơn.</p>
-        <p>Để bổ sung chức năng hỏi đáp, em tham khảo mã nguồn mở <strong>deepseek4free</strong> trên GitHub của tác giả xtekky. Mã nguồn này cung cấp cách tạo phiên trò chuyện và gửi câu hỏi đến DeepSeek. Em triển khai phần API thành một dịch vụ riêng trên <strong>Railway</strong>, sau đó kết nối website với endpoint <strong>/v1/chat/completions</strong> bằng phương thức POST để Sử Ký có thể nhận câu hỏi và trả lời theo thời gian thực.</p>
-        <p>Trong quá trình triển khai, em cấu hình biến môi trường và token ở phía dịch vụ Railway, kiểm tra response JSON, xử lý trạng thái đang gõ và thêm thông báo lỗi khi máy chủ không phản hồi. Nhờ vậy, phần giao diện website và phần API được tách riêng, dễ kiểm tra và có thể cập nhật độc lập.</p>
-        <p>Sản phẩm được thực hiện với cảm hứng từ kế hoạch tìm hiểu về Văn Miếu–Quốc Tử Giám nhân dịp kỷ niệm 950 năm Quốc học Việt Nam. Qua website này, em muốn góp phần lan tỏa tình yêu lịch sử, văn hóa và tinh thần hiếu học đến các bạn học sinh.</p>
+        <p>Em xây dựng website để giới thiệu Văn Miếu–Quốc Tử Giám trực quan, hiện đại và dễ tiếp cận, giúp học sinh hiểu thêm về lịch sử, văn hóa và truyền thống hiếu học.</p>
+        <p>Em tự chọn lọc tư liệu, xây dựng nội dung, bố cục và hình ảnh; sau đó kiểm tra, sửa lỗi và tối ưu giao diện trên máy tính lẫn điện thoại.</p>
+        <p>Website dùng <strong>HTML, React, CSS và JavaScript/TypeScript</strong> cho dòng thời gian, hiệu ứng và các tương tác. Phần hỏi đáp tham khảo mã nguồn mở <strong>deepseek4free</strong> của xtekky, triển khai API riêng trên <strong>Railway</strong> và kết nối endpoint <strong>/v1/chat/completions</strong>; em cũng xử lý token, JSON, trạng thái đang gõ và lỗi máy chủ.</p>
+        <p>Sản phẩm lấy cảm hứng từ kế hoạch tìm hiểu Văn Miếu–Quốc Tử Giám nhân dịp 950 năm Quốc học Việt Nam, với mong muốn lan tỏa tình yêu lịch sử và tinh thần hiếu học.</p>
         <div className="about-source"><span>NGUỒN CẢM HỨNG</span><strong>Kế hoạch liên tịch số 4639/KHLT-GDĐT-VHTTDL · 03/09/2026</strong></div>
       </aside>}
 
