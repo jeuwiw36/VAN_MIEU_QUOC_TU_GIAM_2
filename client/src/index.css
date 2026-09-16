@@ -126,6 +126,14 @@ img { display: block; max-width: 100%; }
 .detail-ornament { display: flex; gap: 6px; margin-top: 34px; }
 .detail-ornament span { background: #e7957d; height: 4px; width: 4px; }
 .detail-ornament span:nth-child(2) { opacity: .6; }.detail-ornament span:nth-child(3) { opacity: .25; }
+.timeline-section[data-reveal].is-visible .section-kicker { animation: timeline-rise .55s var(--ease-out) both; }
+.timeline-section[data-reveal].is-visible .timeline-heading { animation: timeline-rise .7s .1s var(--ease-out) both; }
+.timeline-section[data-reveal].is-visible .timeline-layout { animation: timeline-rise .7s .2s var(--ease-out) both; }
+.timeline-section[data-reveal].is-visible .timeline-item { animation: timeline-item-in .55s var(--ease-out) both; }
+.timeline-section[data-reveal].is-visible .timeline-item:nth-child(2) { animation-delay: .08s; }
+.timeline-section[data-reveal].is-visible .timeline-item:nth-child(3) { animation-delay: .16s; }
+.timeline-section[data-reveal].is-visible .timeline-item:nth-child(4) { animation-delay: .24s; }
+.timeline-section[data-reveal].is-visible .timeline-detail { animation: timeline-detail-in .8s .3s var(--ease-out) both; }
 
 .architecture-heading { align-items: end; display: flex; justify-content: space-between; margin-bottom: 65px; }
 .architecture-feature { align-items: stretch; display: grid; gap: 70px; grid-template-columns: minmax(300px, 1fr) minmax(0, 1.05fr); }
@@ -214,6 +222,9 @@ img { display: block; max-width: 100%; }
 @keyframes panel-in { from { opacity: 0; transform: translateY(13px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes cue-breathe { 0%, 100% { opacity: .55; transform: translateX(0); } 50% { opacity: 1; transform: translateX(7px); } }
 @keyframes orbit-drift { from { transform: translate3d(0, 0, 0) rotate(0deg); } to { transform: translate3d(-24px, 18px, 0) rotate(7deg); } }
+@keyframes timeline-rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes timeline-item-in { from { opacity: 0; transform: translateX(-22px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes timeline-detail-in { from { opacity: 0; transform: translateX(26px); } to { opacity: 1; transform: translateX(0); } }
 
 @media (max-width: 900px) {
   .page-width { width: min(100% - 40px, 680px); }
