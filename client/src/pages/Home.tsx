@@ -24,6 +24,7 @@ type ChatMessage = {
 };
 
 const storage = import.meta.env.PROD ? `${import.meta.env.BASE_URL}assets/` : "/manus-storage/";
+const brandLogo = `${import.meta.env.BASE_URL}assets/vq-logo.jpg`;
 
 const timeline = [
   {
@@ -300,7 +301,7 @@ export default function Home() {
     <div className="site-shell">
       <header className={`site-header ${scrolled ? "is-scrolled" : ""}`}>
         <a className="brand" href="#top" onClick={() => scrollTo("top")}>
-          <span className="brand-mark">VQ</span>
+          <img className="brand-mark" src={brandLogo} alt="Biểu trưng Văn Miếu" />
           <span className="brand-copy">
             <strong>Văn Miếu</strong>
             <small>Quốc Tử Giám · 1070</small>
@@ -524,7 +525,7 @@ export default function Home() {
       </aside>}
 
       <footer className="site-footer">
-        <div className="page-width footer-top"><div className="footer-brand"><span className="brand-mark">VQ</span><div><strong>Văn Miếu · Quốc Tử Giám</strong><p>Một trang giới thiệu di sản số<br />cho những người còn yêu việc học.</p></div></div><div className="footer-links"><a href="#di-san">Khám phá</a><a href="#dong-chay">Lịch sử</a><a href="#tro-ly">Hỏi Sử Ký</a><button type="button" onClick={() => setAboutVisible(true)}>Giới thiệu về em</button></div><div className="footer-note"><Clock3 size={16} /><span>1070 — 2026<br />Hà Nội, Việt Nam</span></div></div>
+        <div className="page-width footer-top"><div className="footer-brand"><img className="brand-mark" src={brandLogo} alt="Biểu trưng Văn Miếu" /><div><strong>Văn Miếu · Quốc Tử Giám</strong><p>Một trang giới thiệu di sản số<br />cho những người còn yêu việc học.</p></div></div><div className="footer-links"><a href="#di-san">Khám phá</a><a href="#dong-chay">Lịch sử</a><a href="#tro-ly">Hỏi Sử Ký</a><button type="button" onClick={() => setAboutVisible(true)}>Giới thiệu về em</button></div><div className="footer-note"><Clock3 size={16} /><span>1070 — 2026<br />Hà Nội, Việt Nam</span></div></div>
         <div className="page-width footer-bottom"><span>Được làm cho một bài tập, bằng tất cả sự tò mò.</span><span>© 2026 · Di sản thuộc về mọi người</span></div>
       </footer>
 
