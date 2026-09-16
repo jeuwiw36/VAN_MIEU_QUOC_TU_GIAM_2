@@ -31,7 +31,7 @@ img { display: block; max-width: 100%; }
 .site-header { align-items: center; background: transparent; color: #fff; display: flex; height: 84px; justify-content: space-between; left: 0; padding: 0 max(32px, calc((100vw - 1180px) / 2)); position: absolute; right: 0; top: 0; transition: background .25s var(--ease-out), color .25s var(--ease-out), box-shadow .25s var(--ease-out); z-index: 20; }
 .site-header.is-scrolled { background: rgba(251,249,243,.94); box-shadow: 0 8px 28px rgba(13,42,42,.08); color: var(--ink); position: fixed; backdrop-filter: blur(16px); }
 .brand { align-items: center; display: inline-flex; gap: 12px; }
-.brand-mark { align-items: center; background: var(--coral); color: #fff; display: inline-flex; font-family: 'Fraunces', serif; font-size: 19px; height: 39px; justify-content: center; letter-spacing: -.08em; width: 39px; }
+.brand-mark { background: #fff; display: block; height: 39px; object-fit: contain; padding: 2px; width: 39px; }
 .brand-copy { display: flex; flex-direction: column; gap: 1px; }
 .brand-copy strong { font-family: 'Fraunces', serif; font-size: 16px; letter-spacing: -.02em; }
 .brand-copy small { font-size: 8px; font-weight: 700; letter-spacing: .13em; opacity: .72; text-transform: uppercase; }
@@ -156,8 +156,8 @@ img { display: block; max-width: 100%; }
 .stele-metrics strong { color: #fff; font-family: 'Fraunces', serif; font-size: 23px; font-weight: 500; }
 .stele-metrics span { color: rgba(255,255,255,.45); font-size: 9px; letter-spacing: .07em; text-transform: uppercase; }
 .stele-photo-wrap { margin-right: 20px; position: relative; transform: rotate(-2deg); }
-.stele-photo-wrap::before { border: 1px solid rgba(217,108,88,.7); content: ''; inset: 0; pointer-events: none; position: absolute; z-index: 1; }
-.stele-photo-wrap img { display: block; filter: grayscale(.25) sepia(.2); height: 515px; object-fit: cover; width: 100%; }
+.stele-photo-wrap::before { border: 1px solid rgba(217,108,88,.7); content: ''; inset: 0; pointer-events: none; position: absolute; transform: rotate(4deg); transform-origin: center; z-index: 1; }
+.stele-photo-wrap img { display: block; filter: grayscale(.25) sepia(.2); height: 515px; object-fit: cover; transform: rotate(4deg); transform-origin: center; width: 100%; }
 .stele-photo-caption { background: var(--coral); bottom: -21px; color: #fff; display: flex; flex-direction: column; left: -22px; padding: 14px 20px 15px; position: absolute; transform: rotate(2deg); }
 .stele-photo-caption span, .stele-photo-caption small { font-size: 8px; letter-spacing: .11em; opacity: .74; text-transform: uppercase; }
 .stele-photo-caption strong { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 500; margin: 3px 0; }
