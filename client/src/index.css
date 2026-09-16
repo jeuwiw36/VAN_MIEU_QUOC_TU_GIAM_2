@@ -308,7 +308,7 @@ button:disabled, input:disabled { cursor: not-allowed; opacity: .55; }
 .about-popover-topline button:hover { background: #e4d7bf; transform: rotate(8deg); }
 .about-popover h2 { color: var(--ink); font-family: 'Fraunces', serif; font-size: 29px; font-weight: 600; letter-spacing: -.055em; line-height: 1.02; margin: 19px 0 16px; }
 .about-popover h2 em { color: var(--coral); font-style: italic; }
-.about-popover p { color: var(--muted); font-size: 10px; line-height: 1.75; margin: 0 0 11px; }
+.about-popover p { color: var(--muted); font-size: 12px; line-height: 1.7; margin: 0 0 13px; }
 .about-source { border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; margin-top: 17px; padding-top: 13px; }
 .about-source span { color: var(--coral-dark); font-size: 8px; font-weight: 800; letter-spacing: .12em; }
 .about-source strong { color: var(--ink); font-family: 'Fraunces', serif; font-size: 12px; font-weight: 600; line-height: 1.35; }
@@ -327,7 +327,7 @@ button:disabled, input:disabled { cursor: not-allowed; opacity: .55; }
   .about-label { font-size: 7px; letter-spacing: .12em; }
   .about-popover-topline button { height: 23px; width: 23px; }
   .about-popover h2 { font-size: 20px; line-height: 1.04; margin: 13px 0 11px; }
-  .about-popover p { font-size: 9px; line-height: 1.55; margin-bottom: 8px; }
+  .about-popover p { font-size: 11px; line-height: 1.6; margin-bottom: 10px; }
   .about-source { margin-top: 11px; padding-top: 9px; }
   .about-source span { font-size: 7px; }
   .about-source strong { font-size: 10px; }
@@ -335,5 +335,5 @@ button:disabled, input:disabled { cursor: not-allowed; opacity: .55; }
 @media (max-width: 380px) {
   .about-popover { bottom: 62px; left: 10px; max-height: calc(100vh - 78px); padding: 14px 15px 13px; right: 10px; }
   .about-popover h2 { font-size: 18px; }
-  .about-popover p { font-size: 8.5px; line-height: 1.48; }
+  .about-popover p { font-size: 10px; line-height: 1.52; }
 }
